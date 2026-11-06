@@ -1,4 +1,5 @@
 """Mapa de la ciudad: matriz densa de celdas (filas x columnas)."""
+import random
 
 LIBRE = "."
 OBSTACULO = "#"
@@ -19,6 +20,7 @@ class Mapa:
         dentro() O(1) · obtener() O(1) · poner() O(1)
         es_transitable() O(1) · contar() O(filas x columnas)
         proporcion_obstaculos() O(filas x columnas)
+        generar() O(filas x columnas) en promedio
     Crear un mapa es O(filas x columnas).
     """
 
@@ -27,6 +29,8 @@ class Mapa:
             raise ValueError("El mapa necesita al menos 1 fila y 1 columna")
         self.filas = filas
         self.columnas = columnas
+        self.inicio = None   # celda de inicio de Pedro (la fija generar)
+        self.meta = None     # celda del aeropuerto (la fija generar)
         # Soporte interno declarado en plan.md: list como contenedor de
         # tamaño fijo. No se usa append ni pop.
         self._celdas = [[LIBRE] * columnas for _ in range(filas)]
@@ -77,3 +81,58 @@ class Mapa:
     def proporcion_obstaculos(self):
         """Fracción de celdas que son obstáculo, entre 0 y 1. O(filas x columnas)."""
         return self.contar(OBSTACULO) / (self.filas * self.columnas)
+
+    @classmethod
+    def generar(cls, filas, columnas, semilla):
+        """Crea un mapa listo para jugar. O(filas x columnas) en promedio.
+
+        Pedro empieza en la esquina (0, 0) y el aeropuerto queda en la
+        esquina opuesta. Primero se abre un corredor libre entre ambos
+        (CA-02) y los obstáculos se colocan solo fuera de él. Con la misma
+        semilla se obtiene el mismo mapa.
+
+        Lanza ValueError si filas o columnas son menores que 20.
+        """
+        if filas < 20 or columnas < 20:
+            raise ValueError("El mapa debe medir al menos 20x20")
+        azar = random.Random(semilla)
+        mapa = cls(filas, columnas)
+        mapa.inicio = (0, 0)
+        mapa.meta = (filas - 1, columnas - 1)
+
+        # 1) Corredor: camino que solo baja o avanza a la derecha.
+        reservada = [[False] * columnas for _ in range(filas)]
+        f, c = 0, 0
+        reservada[f][c] = True
+        while (f, c) != mapa.meta:
+            if f == filas - 1:
+                c += 1
+            elif c == columnas - 1:
+                f += 1
+            elif azar.random() < 0.5:
+                f += 1
+            else:
+                c += 1
+            reservada[f][c] = True
+
+        # 2) Obstáculos: el 20 % de las celdas, solo fuera del corredor.
+        objetivo = int(filas * columnas * 0.20)
+        puestos = 0
+        while puestos < objetivo:
+            f = azar.randrange(filas)
+            c = azar.randrange(columnas)
+            if not reservada[f][c] and mapa.obtener(f, c) == LIBRE:
+                mapa.poner(f, c, OBSTACULO)
+                puestos += 1
+
+        # 3) Meta y objetos: 3 comidas y 3 aguas en celdas libres.
+        mapa.poner(mapa.meta[0], mapa.meta[1], META)
+        for simbolo in (COMIDA, AGUA):
+            puestos = 0
+            while puestos < 3:
+                f = azar.randrange(filas)
+                c = azar.randrange(columnas)
+                if mapa.obtener(f, c) == LIBRE and (f, c) != mapa.inicio:
+                    mapa.poner(f, c, simbolo)
+                    puestos += 1
+        return mapa
