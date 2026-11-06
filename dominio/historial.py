@@ -1,0 +1,34 @@
+"""Historial de acciones del jugador: deshacer y rehacer con dos pilas."""
+from estructuras.pila import Pila, PilaVaciaError
+
+
+class Historial:
+    """Recuerda las acciones para poder revertirlas y reaplicarlas.
+
+    Usa dos pilas: *hechas* (se pueden deshacer; la cima es la más reciente)
+    y *deshechas* (se pueden rehacer; la cima es la última deshecha).
+
+    Complejidad de las operaciones públicas:
+        registrar() O(1) · cantidad() O(1)
+        hay_deshacer() O(1) · hay_rehacer() O(1)
+    """
+
+    def __init__(self):
+        self._hechas = Pila()
+        self._deshechas = Pila()
+
+    def registrar(self, accion):
+        """Guarda una acción ya aplicada como la más reciente. O(1)."""
+        self._hechas.apilar(accion)
+
+    def cantidad(self):
+        """Número de acciones que se pueden deshacer. O(1)."""
+        return self._hechas.tamano()
+
+    def hay_deshacer(self):
+        """Verdadero si hay al menos una acción para deshacer. O(1)."""
+        return not self._hechas.esta_vacia()
+
+    def hay_rehacer(self):
+        """Verdadero si hay al menos una acción para rehacer. O(1)."""
+        return not self._deshechas.esta_vacia()
