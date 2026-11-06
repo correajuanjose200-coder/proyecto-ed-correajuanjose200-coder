@@ -32,3 +32,15 @@ class Historial:
     def hay_rehacer(self):
         """Verdadero si hay al menos una acción para rehacer. O(1)."""
         return not self._deshechas.esta_vacia()
+
+    def deshacer(self):
+        """Devuelve la acción más reciente y la pasa a 'deshechas'. O(1).
+
+        Si no hay nada que deshacer devuelve None y no cambia el estado (CA-18).
+        """
+        try:
+            accion = self._hechas.desapilar()
+        except PilaVaciaError:
+            return None
+        self._deshechas.apilar(accion)
+        return accion
