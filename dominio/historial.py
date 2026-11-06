@@ -44,3 +44,15 @@ class Historial:
             return None
         self._deshechas.apilar(accion)
         return accion
+
+    def rehacer(self):
+        """Devuelve la última acción deshecha y la vuelve a 'hechas'. O(1).
+
+        Si no hay nada que rehacer devuelve None y no cambia el estado (CA-18).
+        """
+        try:
+            accion = self._deshechas.desapilar()
+        except PilaVaciaError:
+            return None
+        self._hechas.apilar(accion)
+        return accion
