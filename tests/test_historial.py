@@ -76,3 +76,39 @@ def test_deshacer_sin_acciones_no_cambia_el_estado():
     assert h.deshacer() is None
     assert h.cantidad() == 0
     assert not h.hay_rehacer()
+
+
+def test_rehacer_orden_inverso_al_deshacer():
+    """CA-16, CA-H2: rehacer devuelve primero la última acción deshecha."""
+    h = Historial()
+    for n in (1, 2, 3):
+        h.registrar(_accion(n))
+    for _ in range(3):
+        h.deshacer()
+    assert h.rehacer().turno_antes == 1
+    assert h.rehacer().turno_antes == 2
+    assert h.rehacer().turno_antes == 3
+
+
+def test_rehacer_vuelve_a_hechas():
+    """CA-16: rehacer sube cantidad() en 1 y consume lo rehacible."""
+    h = Historial()
+    h.registrar(_accion(1))
+    h.deshacer()
+    assert h.cantidad() == 0
+    h.rehacer()
+    assert h.cantidad() == 1
+    assert not h.hay_rehacer()
+
+
+def test_rehacer_sin_deshechas_no_cambia_el_estado():
+    """CA-18: sin nada que rehacer devuelve None y el estado queda igual."""
+    h = Historial()
+    h.registrar(_accion())
+    assert h.rehacer() is None
+    assert h.cantidad() == 1
+
+
+def test_rehacer_en_historial_vacio():
+    """CA-18: con el historial vacío, rehacer devuelve None."""
+    assert Historial().rehacer() is None
