@@ -10,7 +10,8 @@ class Pila:
     """Pila: lo último que entra es lo primero que sale.
 
     Complejidad de las operaciones públicas:
-        esta_vacia() O(1) · tamano() O(1) · cima() O(1) · desapilar() O(1)
+        apilar() O(1) · desapilar() O(1) · cima() O(1)
+        esta_vacia() O(1) · tamano() O(1)
     """
 
     def __init__(self):
@@ -24,6 +25,11 @@ class Pila:
     def tamano(self):
         """Cantidad de elementos. O(1)."""
         return self._tamano
+
+    def apilar(self, dato):
+        """Pone un elemento arriba de la pila. O(1)."""
+        self._cima = Nodo(dato, self._cima)
+        self._tamano += 1
 
     def cima(self):
         """Devuelve el elemento de arriba sin quitarlo. O(1).
