@@ -21,6 +21,7 @@ class Mapa:
         es_transitable() O(1) · contar() O(filas x columnas)
         proporcion_obstaculos() O(filas x columnas)
         generar() O(filas x columnas) en promedio
+        dibujar() O(filas x columnas + marcas)
     Crear un mapa es O(filas x columnas).
     """
 
@@ -136,3 +137,20 @@ class Mapa:
                     mapa.poner(f, c, simbolo)
                     puestos += 1
         return mapa
+
+    def dibujar(self, marcas=()):
+        """Devuelve el mapa como texto, una línea por fila.
+
+        O(filas x columnas + marcas). `marcas` es una secuencia de
+        (fila, columna, símbolo), por ejemplo Pedro y los zombis, que se
+        dibujan encima del terreno sin modificar el mapa.
+
+        Lanza PosicionInvalidaError si una marca está fuera del mapa.
+        """
+        # Copia temporal del terreno (soporte interno): el mapa no cambia.
+        copia = [fila[:] for fila in self._celdas]
+        for f, c, simbolo in marcas:
+            if not self.dentro(f, c):
+                raise PosicionInvalidaError(f"Marca fuera del mapa: ({f}, {c})")
+            copia[f][c] = simbolo
+        return "\n".join("".join(fila) for fila in copia)
