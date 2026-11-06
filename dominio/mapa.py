@@ -17,6 +17,8 @@ class Mapa:
 
     Complejidad de las operaciones públicas:
         dentro() O(1) · obtener() O(1) · poner() O(1)
+        es_transitable() O(1) · contar() O(filas x columnas)
+        proporcion_obstaculos() O(filas x columnas)
     Crear un mapa es O(filas x columnas).
     """
 
@@ -57,3 +59,21 @@ class Mapa:
     def es_transitable(self, f, c):
         """Verdadero si (f, c) está dentro del mapa y no es obstáculo. O(1)."""
         return self.dentro(f, c) and self._celdas[f][c] != OBSTACULO
+
+    def contar(self, simbolo):
+        """Cuántas celdas tienen ese símbolo. O(filas x columnas).
+
+        Lanza ValueError si el símbolo no es válido.
+        """
+        if simbolo not in SIMBOLOS_VALIDOS:
+            raise ValueError(f"Símbolo desconocido: {simbolo}")
+        total = 0
+        for fila in self._celdas:
+            for celda in fila:
+                if celda == simbolo:
+                    total += 1
+        return total
+
+    def proporcion_obstaculos(self):
+        """Fracción de celdas que son obstáculo, entre 0 y 1. O(filas x columnas)."""
+        return self.contar(OBSTACULO) / (self.filas * self.columnas)
