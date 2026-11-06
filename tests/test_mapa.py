@@ -123,3 +123,49 @@ def test_es_transitable_falso_fuera_del_mapa():
     assert not m.es_transitable(0, -1)
     assert not m.es_transitable(3, 0)
     assert not m.es_transitable(0, 3)
+
+
+def test_contar_en_mapa_nuevo():
+    """CA-01 (base): un mapa nuevo de 3×4 tiene 12 celdas libres y ninguna de otro tipo."""
+    m = Mapa(3, 4)
+    assert m.contar(".") == 12
+    assert m.contar("#") == 0
+    assert m.contar("C") == 0
+
+
+def test_contar_tras_poner_simbolos():
+    """CA-01 (base): contar refleja lo que se puso en el mapa."""
+    m = Mapa(3, 3)
+    m.poner(0, 0, "#")
+    m.poner(1, 1, "#")
+    m.poner(2, 2, "C")
+    assert m.contar("#") == 2
+    assert m.contar("C") == 1
+    assert m.contar(".") == 6
+
+
+def test_contar_simbolo_invalido_lanza_error():
+    """CA-M5: contar un símbolo desconocido lanza ValueError."""
+    with pytest.raises(ValueError):
+        Mapa(3, 3).contar("X")
+
+
+def test_proporcion_sin_obstaculos_es_cero():
+    """CA-01 (base): sin obstáculos la proporción es 0."""
+    assert Mapa(4, 4).proporcion_obstaculos() == 0
+
+
+def test_proporcion_con_un_obstaculo():
+    """CA-01 (base): un obstáculo en un mapa de 2×2 es el 25 %."""
+    m = Mapa(2, 2)
+    m.poner(0, 0, "#")
+    assert m.proporcion_obstaculos() == 0.25
+
+
+def test_proporcion_con_todo_obstaculos_es_uno():
+    """CA-01 (base): con todas las celdas obstáculo la proporción es 1."""
+    m = Mapa(2, 2)
+    for f in range(2):
+        for c in range(2):
+            m.poner(f, c, "#")
+    assert m.proporcion_obstaculos() == 1
