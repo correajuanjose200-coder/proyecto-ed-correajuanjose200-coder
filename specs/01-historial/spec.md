@@ -30,7 +30,7 @@ Una acción registrada contiene todo lo necesario para revertirla y reaplicarla:
 Los criterios de producto que verifica este componente son **CA-14, CA-15, CA-16, CA-17 y CA-18** (ver `00-producto/historias.md`). Además:
 
 - **CA-H1** Con N acciones registradas, N deshacer sucesivos las devuelven en orden inverso al registrado.
-- **CA-H2** Con N acciones deshechas, N rehacer sucesivos las devuelven en el orden en que se deshicieron.
+- **CA-H2** Con N acciones deshechas, N rehacer sucesivos las devuelven en orden inverso al que se deshicieron (es decir, en el orden original en que se registraron).
 - **CA-H3** `cantidad()` es 0 con el historial vacío y baja en 1 con cada deshacer.
 - **CA-H4** Registrar, deshacer una vez y registrar otra acción deja `hay_rehacer()` en falso.
 
@@ -39,3 +39,4 @@ Los criterios de producto que verifica este componente son **CA-14, CA-15, CA-16
 | Versión | Fecha | Cambio | Motivo |
 |---|---|---|---|
 | 1.0 | 2026-10-14 | Versión inicial | Entrega 1 |
+| 1.1 | 2026-11-06 | CA-H2 reescrito | Contradecía la regla "se rehacen en orden inverso al que se deshicieron" y el comportamiento de dos pilas |
