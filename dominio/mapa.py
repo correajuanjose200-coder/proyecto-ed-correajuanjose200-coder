@@ -53,3 +53,7 @@ class Mapa:
         if simbolo not in SIMBOLOS_VALIDOS:
             raise ValueError(f"Símbolo desconocido: {simbolo}")
         self._celdas[f][c] = simbolo
+
+    def es_transitable(self, f, c):
+        """Verdadero si (f, c) está dentro del mapa y no es obstáculo. O(1)."""
+        return self.dentro(f, c) and self._celdas[f][c] != OBSTACULO
