@@ -21,3 +21,42 @@ def test_cima_en_vacia_lanza_error():
     """Base de CA-18: consultar la cima sin elementos lanza PilaVaciaError."""
     with pytest.raises(PilaVaciaError):
         Pila().cima()
+
+
+def test_apilar_un_elemento():
+    """Base de CA-H1: apilar un elemento lo deja en la cima y sube el tamaño."""
+    p = Pila()
+    p.apilar("a")
+    assert p.cima() == "a"
+    assert p.tamano() == 1
+    assert not p.esta_vacia()
+
+
+def test_desapilar_un_elemento_deja_vacia():
+    """Base de CA-H1: desapilar el único elemento lo devuelve y vacía la pila."""
+    p = Pila()
+    p.apilar("a")
+    assert p.desapilar() == "a"
+    assert p.esta_vacia()
+    assert p.tamano() == 0
+
+
+def test_desapilar_sale_en_orden_inverso():
+    """CA-H1 (base): con varios elementos sale primero el último que entró."""
+    p = Pila()
+    for x in (1, 2, 3):
+        p.apilar(x)
+    assert p.desapilar() == 3
+    assert p.desapilar() == 2
+    assert p.desapilar() == 1
+    assert p.esta_vacia()
+
+
+def test_cima_no_quita_el_elemento():
+    """Base de CA-H1: cima() consulta sin modificar la pila."""
+    p = Pila()
+    p.apilar(1)
+    p.apilar(2)
+    assert p.cima() == 2
+    assert p.cima() == 2
+    assert p.tamano() == 2
