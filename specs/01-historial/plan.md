@@ -26,7 +26,7 @@ También da O(1) en cada operación, pero obliga a mantener un cursor y a cortar
 - `dominio/historial.py`: `Historial` que usa dos `Pila` y expone las operaciones de la spec.
 
 ## Soportes internos
-Ninguno: no se usa `list`, `dict` ni `deque`.
+`Accion` (dominio/accion.py) guarda sus datos en tuplas inmutables: posición y salud de Pedro, posiciones de los zombis y contadores. Son registros de datos de solo lectura; no sustituyen ninguna estructura declarada y no se recorren para buscar ni ordenar. Pila e Historial no usan `list`, `dict` ni `deque`.
 
 ## Decisiones de borde
 - `desapilar` y `cima` sobre pila vacía lanzan `PilaVaciaError`; `Historial.deshacer()` y `rehacer()` la capturan y devuelven `None` para que la interfaz pueda informar sin romperse (CA-18).
@@ -36,3 +36,5 @@ Ninguno: no se usa `list`, `dict` ni `deque`.
 | Versión | Fecha | Cambio | Motivo |
 |---|---|---|---|
 | 1.0 | 2026-10-14 | Versión inicial | Entrega 1 |
+
+| 1.1 | 2026-11-06 | Declarar tuplas como soporte interno de Accion | Los datos de antes y después de los zombis necesitan un contenedor; la tupla es solo un registro |
