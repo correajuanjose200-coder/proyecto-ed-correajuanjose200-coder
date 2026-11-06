@@ -112,3 +112,29 @@ def test_rehacer_sin_deshechas_no_cambia_el_estado():
 def test_rehacer_en_historial_vacio():
     """CA-18: con el historial vacío, rehacer devuelve None."""
     assert Historial().rehacer() is None
+
+
+def test_accion_nueva_vacia_rehacer():
+    """CA-17, CA-H4: registrar tras deshacer descarta lo que se podía rehacer."""
+    h = Historial()
+    h.registrar(_accion(1))
+    h.registrar(_accion(2))
+    h.deshacer()
+    assert h.hay_rehacer()
+    h.registrar(_accion(3))
+    assert not h.hay_rehacer()
+    assert h.rehacer() is None
+    assert h.cantidad() == 2
+
+
+def test_accion_nueva_descarta_varias_deshechas():
+    """CA-17: se descartan todas las deshechas, no solo la última."""
+    h = Historial()
+    for n in (1, 2, 3):
+        h.registrar(_accion(n))
+    h.deshacer()
+    h.deshacer()
+    h.registrar(_accion(9))
+    assert not h.hay_rehacer()
+    assert h.deshacer().turno_antes == 9
+    assert h.deshacer().turno_antes == 1
