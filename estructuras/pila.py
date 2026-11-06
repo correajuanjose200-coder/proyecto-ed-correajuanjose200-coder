@@ -11,7 +11,7 @@ class Pila:
 
     Complejidad de las operaciones públicas:
         apilar() O(1) · desapilar() O(1) · cima() O(1)
-        esta_vacia() O(1) · tamano() O(1)
+        esta_vacia() O(1) · tamano() O(1) · vaciar() O(1) amortizado
     """
 
     def __init__(self):
@@ -51,3 +51,11 @@ class Pila:
         self._cima = nodo.siguiente
         self._tamano -= 1
         return nodo.dato
+    def vaciar(self):
+        """Quita todos los elementos. O(1) amortizado.
+
+        Solo suelta la referencia a la cima; Python libera los nodos
+        que quedaron sin uso (ver plan.md, 'vaciar deshechas').
+        """
+        self._cima = None
+        self._tamano = 0
