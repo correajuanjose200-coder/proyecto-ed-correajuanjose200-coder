@@ -20,6 +20,7 @@ class Historial:
     def registrar(self, accion):
         """Guarda una acción ya aplicada como la más reciente. O(1)."""
         self._hechas.apilar(accion)
+        self._deshechas.vaciar()
 
     def cantidad(self):
         """Número de acciones que se pueden deshacer. O(1)."""
