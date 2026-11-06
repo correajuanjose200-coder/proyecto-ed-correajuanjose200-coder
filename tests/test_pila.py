@@ -60,3 +60,34 @@ def test_cima_no_quita_el_elemento():
     assert p.cima() == 2
     assert p.cima() == 2
     assert p.tamano() == 2
+
+    
+
+def test_vaciar_pila_vacia_no_falla():
+    """Base de CA-17: vaciar una pila ya vacía no lanza error y sigue vacía."""
+    p = Pila()
+    p.vaciar()
+    assert p.esta_vacia()
+    assert p.tamano() == 0
+
+
+def test_vaciar_con_un_elemento():
+    """Base de CA-17: vaciar con un elemento deja la pila vacía."""
+    p = Pila()
+    p.apilar("a")
+    p.vaciar()
+    assert p.esta_vacia()
+    with pytest.raises(PilaVaciaError):
+        p.cima()
+
+
+def test_vaciar_con_varios_y_reutilizar():
+    """Base de CA-17: tras vaciar, la pila queda en uso normal."""
+    p = Pila()
+    for x in (1, 2, 3):
+        p.apilar(x)
+    p.vaciar()
+    assert p.tamano() == 0
+    p.apilar(9)
+    assert p.cima() == 9
+    assert p.tamano() == 1
