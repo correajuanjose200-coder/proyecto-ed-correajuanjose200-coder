@@ -169,3 +169,39 @@ def test_proporcion_con_todo_obstaculos_es_uno():
         for c in range(2):
             m.poner(f, c, "#")
     assert m.proporcion_obstaculos() == 1
+
+
+def test_dibujar_una_linea_por_fila():
+    """CA-M6: una línea por fila y un símbolo por celda."""
+    lineas = Mapa(2, 3).dibujar().split("\n")
+    assert len(lineas) == 2
+    assert len(lineas[0]) == 3
+    assert len(lineas[1]) == 3
+
+
+def test_dibujar_refleja_los_simbolos():
+    """CA-M6, CA-35 (base): el dibujo muestra el terreno tal como está."""
+    m = Mapa(2, 3)
+    m.poner(0, 1, "#")
+    m.poner(1, 2, "C")
+    assert m.dibujar() == ".#.\n..C"
+
+
+def test_dibujar_mapa_de_una_celda():
+    """Caso extremo CA-M6: el mapa de 1x1 se dibuja sin salto de línea."""
+    assert Mapa(1, 1).dibujar() == "."
+
+
+def test_dibujar_marcas_encima_sin_cambiar_el_mapa():
+    """CA-M7, CA-35 (base): P y Z se dibujan encima y el mapa no cambia."""
+    m = Mapa(2, 3)
+    texto = m.dibujar([(0, 0, "P"), (1, 2, "Z")])
+    assert texto == "P..\n..Z"
+    assert m.obtener(0, 0) == "."
+    assert m.obtener(1, 2) == "."
+
+
+def test_dibujar_marca_fuera_del_mapa_lanza_error():
+    """CA-M4, CA-M7: una marca fuera del mapa lanza PosicionInvalidaError."""
+    with pytest.raises(PosicionInvalidaError):
+        Mapa(2, 3).dibujar([(5, 5, "P")])
