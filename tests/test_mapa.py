@@ -95,3 +95,31 @@ def test_poner_simbolo_invalido_lanza_error_y_no_cambia():
     with pytest.raises(ValueError):
         m.poner(1, 1, "X")
     assert m.obtener(1, 1) == "."
+
+
+def test_es_transitable_en_celdas_libres_y_con_objetos():
+    """CA-M2: celdas libres, de objeto y la meta se pueden pisar."""
+    m = Mapa(3, 3)
+    m.poner(0, 1, "C")
+    m.poner(0, 2, "A")
+    m.poner(1, 1, "E")
+    assert m.es_transitable(0, 0)
+    assert m.es_transitable(0, 1)
+    assert m.es_transitable(0, 2)
+    assert m.es_transitable(1, 1)
+
+
+def test_es_transitable_falso_en_obstaculo():
+    """CA-07, CA-20, CA-M2: un obstáculo no se puede pisar."""
+    m = Mapa(3, 3)
+    m.poner(1, 1, "#")
+    assert not m.es_transitable(1, 1)
+
+
+def test_es_transitable_falso_fuera_del_mapa():
+    """CA-07, CA-20, CA-M2: fuera del mapa no se puede pisar, incluidos índices negativos."""
+    m = Mapa(3, 3)
+    assert not m.es_transitable(-1, 0)
+    assert not m.es_transitable(0, -1)
+    assert not m.es_transitable(3, 0)
+    assert not m.es_transitable(0, 3)
