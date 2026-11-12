@@ -24,3 +24,9 @@ pytest
 - `ANALISIS.md`, `BITACORA.md`, `docs/`
 
 Autor: Juan José Correa
+
+## Estado de la entrega final
+- Implementado: pila, cola, inventario, historial (deshacer y rehacer con efectos), mapa con generación por semilla, BFS para los zombis, juego completo en consola.
+- No implementado: AVL, montículo, cola de turnos, antídoto, aturdimiento (ver `specs/00-producto/moscow.md`).
+- Controles: `w/a/s/d` mover, `x` esperar, `u N` usar, `g N` soltar, `z` deshacer, `r` rehacer, `i` inventario, `q` salir.
+- Semilla: `python main.py 5` genera otro mapa.

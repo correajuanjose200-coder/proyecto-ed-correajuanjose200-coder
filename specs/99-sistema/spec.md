@@ -1,39 +1,30 @@
-# Spec del sistema — Última Dosis (versión inicial)
+# Spec del sistema — Última Dosis
 
-Versión 0.1 · 2026-10-14
+Versión 1.1 · 2026-11-11
 
 ## Qué hace el sistema
-Un juego por turnos en consola. Pedro cruza una ciudad en rejilla con el antídoto, recoge comida y agua, y llega al aeropuerto sin que su salud llegue a 0, mientras los zombies lo persiguen por el camino más corto. El jugador puede deshacer y rehacer jugadas, ver los eventos de cada turno, buscar entidades y consultar el ranking.
+Juego por turnos en consola. Pedro cruza un mapa de 20 x 20 hasta la meta `E`. Dos zombis lo persiguen por BFS. Hay objetos (comida `C`, agua `A`), inventario de 5, deshacer y rehacer con efectos, eventos en orden, y victoria y derrota.
 
-## Orden de un turno
-1. El jugador elige una acción (mover, esperar, usar, soltar, deshacer, rehacer, etc.).
-2. Si la acción es inválida, se rechaza y el turno no avanza.
-3. Si es válida: se aplica, se registra en el historial y se generan los eventos.
-4. Si Pedro llegó al aeropuerto, hay victoria y termina el turno (D-4).
-5. Si no, cada zombie actúa en su turno (avanza o hace contacto).
-6. Se evalúa derrota, se atienden los eventos y se dibuja el mapa.
+## Componentes y cómo encajan
+| Componente | Módulo | Contrato con el resto |
+|---|---|---|
+| Pila | `estructuras/pila.py` | La usa `Historial` (hechas y deshechas) |
+| Cola | `estructuras/cola.py` | La usan `Juego` (eventos) y `rutas.py` (frontera del BFS) |
+| Inventario | `estructuras/inventario.py` | `Juego` agrega, quita e inserta por posición |
+| Historial y Accion | `dominio/historial.py`, `dominio/accion.py` | `Juego` registra una `Accion` por turno; deshacer restaura el estado de antes |
+| Mapa | `dominio/mapa.py` | Matriz densa; genera con semilla y camino garantizado |
+| Rutas | `dominio/rutas.py` | `buscar_ruta(mapa, origen, destino)` devuelve distancia, primer paso y celdas exploradas |
+| Juego | `dominio/juego.py` | Reglas de turno, zombis, salud, victoria y derrota |
+| Consola | `main.py` | `python main.py` abre el bucle; `main.main()` solo imprime el banner |
 
-## Componentes previstos
+## Reglas
+Salud inicial 100, comida +20, agua +10 (tope 100), contacto con un zombi -25. La victoria tiene prioridad sobre la derrota (CA-28).
 
-| # | Componente | Historias | Estructura (ver `estructuras.md`) |
-|---|---|---|---|
-| 01 | Historial de acciones | HU-04 | Dos pilas |
-| 02 | Inventario | HU-03 | Lista enlazada simple |
-| 03 | Eventos | HU-06 | Cola |
-| 04 | Turnos | HU-02, HU-05 | Cola |
-| 05 | Índice de entidades | HU-08 | Árbol AVL |
-| 06 | Puntajes | HU-08 | Montículo máximo |
-| 07 | Rutas de zombies | HU-05, HU-01 | Grafo implícito + BFS |
-| 08 | Mapa | HU-01, HU-02 | Matriz densa |
-| — | Consola (`main.py`) | HU-09 | — |
-
-## Cómo encajan (por completar en la Entrega 2)
-- `Mapa` es consultado por `Rutas`, el inventario y las reglas de movimiento.
-- `Turnos` decide quién actúa; cada acción de Pedro produce una `Accion` para `Historial` y eventos para `Eventos`.
-- Cada entidad nueva se inserta en el `Índice`; al ganar, `Puntajes` recibe el puntaje.
+## No implementado
+AVL de entidades, montículo de ranking, cola de turnos propia, antídoto y aturdimiento de zombis. Ver `moscow.md` v1.1.
 
 ## Historial de cambios
-
 | Versión | Fecha | Cambio | Motivo |
 |---|---|---|---|
-| 0.1 | 2026-10-14 | Versión inicial | Entrega 1 |
+| 1.0 | 2026-10-14 | Versión inicial | Entrega 1 |
+| 1.1 | 2026-11-11 | Componentes reales, reglas y lista de lo no implementado | Entrega final |

@@ -27,3 +27,4 @@ Todas se implementan desde cero en `estructuras/`. La **operación dominante** e
 | Versión | Fecha | Cambio | Motivo |
 |---|---|---|---|
 | 1.0 | 2026-10-14 | Versión inicial | Entrega 1 |
+| 1.1 | 2026-11-11 | AVL y montículo no se implementaron. La cola de eventos vive en `dominio/juego.py` (usa `estructuras/cola.py`); el inventario está en `estructuras/inventario.py`; el orden de turnos es fijo (Pedro y luego zombis por id) sin cola propia | Falta de tiempo; las decisiones de diseño de la v1.0 siguen siendo las previstas |

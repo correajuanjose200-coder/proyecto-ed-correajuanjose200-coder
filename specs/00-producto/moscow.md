@@ -55,3 +55,4 @@ Los Must caben justo en la capacidad. Por eso Should y Could solo se tocan si so
 | Versión | Fecha | Cambio | Motivo |
 |---|---|---|---|
 | 1.0 | 2026-10-14 | Versión inicial | Entrega 1 |
+| 1.1 | 2026-11-11 | HU-08 (AVL de entidades y montículo de ranking) pasa de Must a Won't en esta entrega; la cola de turnos separada y CA-05 (antídoto) y CA-22 (aturdimiento) quedan pendientes | Sin tiempo suficiente: priorice un juego jugable con pila, cola, inventario y BFS integrados y con pruebas. CA-30 a CA-34 quedan sin cubrir |
