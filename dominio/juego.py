@@ -8,8 +8,8 @@ from dominio.rutas import buscar_ruta
 from estructuras.cola import Cola
 from estructuras.inventario import Inventario, PosicionInventarioError
 
-SALUD_INICIAL = 3
-SALUD_MAXIMA = 5
+SALUD_INICIAL = 100
+SALUD_MAXIMA = 100
 _MOVIMIENTOS = (("w", -1, 0), ("s", 1, 0), ("a", 0, -1), ("d", 0, 1))
 
 
@@ -51,10 +51,10 @@ class Juego:
     def estado(self):
         """'derrota', 'victoria' o 'jugando', calculado del estado actual."""
         f, c, salud = self.pedro
+        if (f, c) == tuple(self.mapa.meta):
+            return "victoria"  # CA-28: la victoria gana aunque salud <= 0
         if salud <= 0:
             return "derrota"
-        if (f, c) == tuple(self.mapa.meta):
-            return "victoria"
         return "jugando"
 
     def procesar_eventos(self):
@@ -124,7 +124,7 @@ class Juego:
         except PosicionInventarioError:
             return False, "No hay objeto en esa posición."
         f, c, salud = self.pedro
-        mejora = 2 if simbolo == COMIDA else 1
+        mejora = 20 if simbolo == COMIDA else 10
         self._emitir(f"Usaste {_nombre(simbolo)}")
         self._turno("usar", f, c, min(SALUD_MAXIMA, salud + mejora), (simbolo, pos))
         return True, f"Usaste {_nombre(simbolo)}."
@@ -230,7 +230,7 @@ class Juego:
             if ruta is None:
                 continue
             if ruta.distancia <= 1:
-                salud -= 1
+                salud -= 25
                 self._emitir(f"Colisión: el zombi {zid} te ataca (salud {salud})")
                 continue
             sf, sc = ruta.siguiente
