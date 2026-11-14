@@ -10,3 +10,5 @@
 - Qué hice: componentes cola, inventario y rutas (BFS) con spec, pruebas y código; el juego integrado (`dominio/juego.py`), la consola, las pruebas de integración y los documentos finales.
 - Uso de IA: un asistente de IA me ayudó a escribir el código de `rutas.py`, `juego.py`, `main.py` y las pruebas de `test_juego.py`, y los borradores de `ANALISIS.md` y los demás documentos. Revisé los resultados contra mis specs y corregí que el código usaba valores distintos a mi spec (salud, comida, agua, daño y victoria antes que derrota). Voy a explicar cada fragmento en la sustentación.
 - Qué se dificultó: llegué con mucho trabajo pendiente a la fecha final. No alcancé a implementar AVL, montículo, la cola de turnos, el antídoto ni el aturdimiento; los declaré como no implementados. También se me dificultó pegar archivos largos en el editor; terminé creándolos desde la terminal.
+
+- Aclaración sobre el uso de IA (2026-11-13): el asistente también redactó borradores de las specs, pruebas y código de `cola` e `inventario`, y de la spec y las pruebas de `rutas`. Antes de integrarlos los ejecuté con pytest y los revisé contra mis specs.

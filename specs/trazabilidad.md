@@ -1,44 +1,156 @@
-# Trazabilidad criterio ↔ prueba
+# Trazabilidad criterio ↔ prueba ↔ código
 
-Versión 1.0 · 2026-11-11 (cierre al final; 0.1 del 2026-10-14) · Se completa con cada entrega. "Pendiente" = prueba aún no escrita.
+Versión 2.0 · 2026-11-13 · Generada desde los docstrings de `tests/`.
 
-| CA | Componente | Prueba | Estado |
-|---|---|---|---|
-| CA-14 | 01-historial | `tests/test_historial.py::test_deshacer_orden_inverso` | Parcial: orden listo; efectos en T-10 |
-| CA-15 | 01-historial | `tests/test_integracion_historial.py::test_deshacer_recogida` | Hecho: ver cierre (test_juego.py) |
-| CA-16 | 01-historial | `tests/test_historial.py::test_rehacer_orden_inverso_al_deshacer` | Hecho |
-| CA-17 | 01-historial | `tests/test_historial.py::test_accion_nueva_vacia_rehacer` | Hecho |
-| CA-18 | 01-historial | `tests/test_historial.py::test_deshacer_sin_acciones_no_cambia_el_estado` y `test_rehacer_sin_deshechas_no_cambia_el_estado` | Hecho |
-| CA-H1…H4 | 01-historial | `tests/test_historial.py` | Hecho |
-| CA-01…CA-13, CA-19…CA-36 | otros componentes | por especificar en Entrega 2 | Pendiente |
-
-## Componente 03-cola (2026-11-11)
-
-| CA | Prueba | Estado |
+| CA | Prueba | Código |
 |---|---|---|
-| CA-C1 | `tests/test_cola.py::test_orden_primero_en_entrar_primero_en_salir` | Hecho |
-| CA-C2 | `tests/test_cola.py::test_desencolar_en_vacia_lanza_error` y `test_frente_en_vacia_lanza_error_y_no_cambia` | Hecho |
-| CA-C3 | `tests/test_cola.py::test_encolar_un_elemento` y `test_desencolar_baja_el_tamano` | Hecho |
-| CA-C4 | `tests/test_cola.py::test_un_elemento_desencolar_deja_vacia_y_reutilizable` | Hecho |
-| CA-C5 | `tests/test_cola.py::test_vaciar_con_elementos` | Hecho |
+| CA-01 | `tests/test_mapa.py::test_contar_en_mapa_nuevo` | `dominio/mapa.py` |
+| CA-01 | `tests/test_mapa.py::test_contar_tras_poner_simbolos` | `dominio/mapa.py` |
+| CA-01 | `tests/test_mapa.py::test_proporcion_sin_obstaculos_es_cero` | `dominio/mapa.py` |
+| CA-01 | `tests/test_mapa.py::test_proporcion_con_un_obstaculo` | `dominio/mapa.py` |
+| CA-01 | `tests/test_mapa.py::test_proporcion_con_todo_obstaculos_es_uno` | `dominio/mapa.py` |
+| CA-01 | `tests/test_mapa_generar.py::test_generar_rechaza_dimensiones_menores_que_20` | `dominio/mapa.py` |
+| CA-01 | `tests/test_mapa_generar.py::test_generar_tamano_y_obstaculos_maximo_25_por_ciento` | `dominio/mapa.py` |
+| CA-01 | `tests/test_mapa_generar.py::test_generar_mapa_no_cuadrado` | `dominio/mapa.py` |
+| CA-02 | `tests/test_mapa_generar.py::test_generar_siempre_hay_camino_de_pedro_a_la_meta` | `dominio/mapa.py` |
+| CA-02 | `tests/test_mapa_generar.py::test_generar_inicio_y_meta` | `dominio/mapa.py` |
+| CA-02 | `tests/test_mapa_generar.py::test_generar_mapa_no_cuadrado` | `dominio/mapa.py` |
+| CA-02 | `tests/test_rutas.py::test_hay_ruta_en_mapas_generados` | `dominio/rutas.py` |
+| CA-04 | `tests/test_mapa_generar.py::test_generar_hay_comida_y_agua` | `dominio/mapa.py` |
+| CA-07 | `tests/test_juego.py::test_no_atraviesa_obstaculos` | `dominio/juego.py` |
+| CA-07 | `tests/test_mapa.py::test_es_transitable_falso_en_obstaculo` | `dominio/mapa.py` |
+| CA-07 | `tests/test_mapa.py::test_es_transitable_falso_fuera_del_mapa` | `dominio/mapa.py` |
+| CA-09 | `tests/test_inventario.py::test_agregar_un_objeto` | `estructuras/inventario.py` |
+| CA-10 | `tests/test_inventario.py::test_quitar_en_vacio_lanza_error` | `estructuras/inventario.py` |
+| CA-10 | `tests/test_juego.py::test_usar_comida_sube_salud` | `dominio/juego.py` |
+| CA-11 | `tests/test_inventario.py::test_quitar_el_primero` | `estructuras/inventario.py` |
+| CA-11 | `tests/test_inventario.py::test_quitar_uno_del_medio` | `estructuras/inventario.py` |
+| CA-12 | `tests/test_inventario.py::test_agregar_con_inventario_lleno_lanza_error_y_no_cambia` | `estructuras/inventario.py` |
+| CA-13 | `tests/test_inventario.py::test_listar_vacio_no_entrega_nada` | `estructuras/inventario.py` |
+| CA-13 | `tests/test_inventario.py::test_agregar_conserva_el_orden_de_recogida` | `estructuras/inventario.py` |
+| CA-14 | `tests/test_accion.py::test_accion_guarda_sus_datos` | `dominio/accion.py` |
+| CA-14 | `tests/test_historial.py::test_deshacer_orden_inverso` | `dominio/historial.py` |
+| CA-14 | `tests/test_inventario.py::test_quitar_e_insertar_en_la_misma_posicion_restaura` | `estructuras/inventario.py` |
+| CA-14 | `tests/test_nodo.py::test_nodo_guarda_su_dato` | `estructuras/nodo.py` |
+| CA-15 | `tests/test_accion.py::test_accion_guarda_sus_datos` | `dominio/accion.py` |
+| CA-15 | `tests/test_accion.py::test_accion_objeto_es_opcional` | `dominio/accion.py` |
+| CA-15 | `tests/test_inventario.py::test_quitar_e_insertar_en_la_misma_posicion_restaura` | `estructuras/inventario.py` |
+| CA-15 | `tests/test_juego.py::test_recoger_y_deshacer_devuelve_el_objeto_al_mapa` | `dominio/juego.py` |
+| CA-16 | `tests/test_historial.py::test_rehacer_orden_inverso_al_deshacer` | `dominio/historial.py` |
+| CA-16 | `tests/test_historial.py::test_rehacer_vuelve_a_hechas` | `dominio/historial.py` |
+| CA-16 | `tests/test_juego.py::test_rehacer_recogida_vuelve_a_recoger` | `dominio/juego.py` |
+| CA-17 | `tests/test_historial.py::test_accion_nueva_vacia_rehacer` | `dominio/historial.py` |
+| CA-17 | `tests/test_historial.py::test_accion_nueva_descarta_varias_deshechas` | `dominio/historial.py` |
+| CA-17 | `tests/test_juego.py::test_accion_nueva_vacia_lo_rehacible` | `dominio/juego.py` |
+| CA-17 | `tests/test_pila.py::test_vaciar_pila_vacia_no_falla` | `estructuras/pila.py` |
+| CA-17 | `tests/test_pila.py::test_vaciar_con_un_elemento` | `estructuras/pila.py` |
+| CA-17 | `tests/test_pila.py::test_vaciar_con_varios_y_reutilizar` | `estructuras/pila.py` |
+| CA-18 | `tests/test_historial.py::test_deshacer_sin_acciones_no_cambia_el_estado` | `dominio/historial.py` |
+| CA-18 | `tests/test_historial.py::test_rehacer_sin_deshechas_no_cambia_el_estado` | `dominio/historial.py` |
+| CA-18 | `tests/test_historial.py::test_rehacer_en_historial_vacio` | `dominio/historial.py` |
+| CA-18 | `tests/test_nodo.py::test_nodo_guarda_su_dato` | `estructuras/nodo.py` |
+| CA-18 | `tests/test_pila.py::test_pila_nueva_esta_vacia` | `estructuras/pila.py` |
+| CA-18 | `tests/test_pila.py::test_desapilar_en_vacia_lanza_error` | `estructuras/pila.py` |
+| CA-18 | `tests/test_pila.py::test_cima_en_vacia_lanza_error` | `estructuras/pila.py` |
+| CA-19 | `tests/test_rutas.py::test_siguiente_esta_a_un_paso_y_acerca_al_destino` | `dominio/rutas.py` |
+| CA-20 | `tests/test_mapa.py::test_es_transitable_falso_en_obstaculo` | `dominio/mapa.py` |
+| CA-20 | `tests/test_mapa.py::test_es_transitable_falso_fuera_del_mapa` | `dominio/mapa.py` |
+| CA-20 | `tests/test_rutas.py::test_siguiente_nunca_es_obstaculo_ni_sale_del_mapa` | `dominio/rutas.py` |
+| CA-21 | `tests/test_rutas.py::test_muro_completo_da_none` | `dominio/rutas.py` |
+| CA-21 | `tests/test_rutas.py::test_destino_encerrado_da_none` | `dominio/rutas.py` |
+| CA-22 | `tests/test_juego.py::test_no_entra_a_celda_con_zombi` | `dominio/juego.py` |
+| CA-23 | `tests/test_juego.py::test_eventos_salen_en_orden_de_llegada` | `dominio/juego.py` |
+| CA-26 | `tests/test_juego.py::test_victoria_al_llegar_a_la_meta` | `dominio/juego.py` |
+| CA-27 | `tests/test_juego.py::test_derrota_sin_salud` | `dominio/juego.py` |
+| CA-35 | `tests/test_mapa.py::test_dibujar_refleja_los_simbolos` | `dominio/mapa.py` |
+| CA-35 | `tests/test_mapa.py::test_dibujar_marcas_encima_sin_cambiar_el_mapa` | `dominio/mapa.py` |
+| CA-C1 | `tests/test_cola.py::test_orden_primero_en_entrar_primero_en_salir` | `estructuras/cola.py` |
+| CA-C2 | `tests/test_cola.py::test_cola_nueva_esta_vacia` | `estructuras/cola.py` |
+| CA-C2 | `tests/test_cola.py::test_desencolar_en_vacia_lanza_error` | `estructuras/cola.py` |
+| CA-C2 | `tests/test_cola.py::test_frente_en_vacia_lanza_error_y_no_cambia` | `estructuras/cola.py` |
+| CA-C3 | `tests/test_cola.py::test_encolar_un_elemento` | `estructuras/cola.py` |
+| CA-C3 | `tests/test_cola.py::test_desencolar_baja_el_tamano` | `estructuras/cola.py` |
+| CA-C4 | `tests/test_cola.py::test_un_elemento_desencolar_deja_vacia_y_reutilizable` | `estructuras/cola.py` |
+| CA-C5 | `tests/test_cola.py::test_vaciar_con_elementos` | `estructuras/cola.py` |
+| CA-C5 | `tests/test_cola.py::test_vaciar_en_vacia_no_falla` | `estructuras/cola.py` |
+| CA-C5 | `tests/test_cola.py::test_vaciar_con_un_elemento` | `estructuras/cola.py` |
+| CA-H1 | `tests/test_historial.py::test_deshacer_orden_inverso` | `dominio/historial.py` |
+| CA-H1 | `tests/test_pila.py::test_apilar_un_elemento` | `estructuras/pila.py` |
+| CA-H1 | `tests/test_pila.py::test_desapilar_un_elemento_deja_vacia` | `estructuras/pila.py` |
+| CA-H1 | `tests/test_pila.py::test_desapilar_sale_en_orden_inverso` | `estructuras/pila.py` |
+| CA-H1 | `tests/test_pila.py::test_cima_no_quita_el_elemento` | `estructuras/pila.py` |
+| CA-H2 | `tests/test_historial.py::test_rehacer_orden_inverso_al_deshacer` | `dominio/historial.py` |
+| CA-H3 | `tests/test_historial.py::test_historial_nuevo_esta_vacio` | `dominio/historial.py` |
+| CA-H3 | `tests/test_historial.py::test_registrar_una_accion` | `dominio/historial.py` |
+| CA-H3 | `tests/test_historial.py::test_registrar_varias_acciones` | `dominio/historial.py` |
+| CA-H3 | `tests/test_historial.py::test_deshacer_baja_cantidad_y_habilita_rehacer` | `dominio/historial.py` |
+| CA-H3 | `tests/test_historial.py::test_deshacer_la_unica_accion_deja_historial_vacio` | `dominio/historial.py` |
+| CA-H4 | `tests/test_historial.py::test_accion_nueva_vacia_rehacer` | `dominio/historial.py` |
+| CA-I1 | `tests/test_inventario.py::test_agregar_un_objeto` | `estructuras/inventario.py` |
+| CA-I1 | `tests/test_inventario.py::test_agregar_conserva_el_orden_de_recogida` | `estructuras/inventario.py` |
+| CA-I1 | `tests/test_inventario.py::test_quitar_el_ultimo_y_luego_agregar_mantiene_el_orden` | `estructuras/inventario.py` |
+| CA-I2 | `tests/test_inventario.py::test_agregar_con_inventario_lleno_lanza_error_y_no_cambia` | `estructuras/inventario.py` |
+| CA-I2 | `tests/test_inventario.py::test_insertar_con_inventario_lleno_lanza_error` | `estructuras/inventario.py` |
+| CA-I3 | `tests/test_inventario.py::test_quitar_en_vacio_lanza_error` | `estructuras/inventario.py` |
+| CA-I3 | `tests/test_inventario.py::test_quitar_posicion_fuera_de_rango_lanza_error_y_no_cambia` | `estructuras/inventario.py` |
+| CA-I3 | `tests/test_inventario.py::test_quitar_el_unico_deja_vacio_y_reutilizable` | `estructuras/inventario.py` |
+| CA-I3 | `tests/test_inventario.py::test_quitar_el_primero` | `estructuras/inventario.py` |
+| CA-I3 | `tests/test_inventario.py::test_quitar_uno_del_medio` | `estructuras/inventario.py` |
+| CA-I3 | `tests/test_inventario.py::test_quitar_el_ultimo_y_luego_agregar_mantiene_el_orden` | `estructuras/inventario.py` |
+| CA-I3 | `tests/test_inventario.py::test_tamano_baja_y_esta_vacio_cambia_al_quitar` | `estructuras/inventario.py` |
+| CA-I4 | `tests/test_inventario.py::test_insertar_en_vacio_posicion_0` | `estructuras/inventario.py` |
+| CA-I4 | `tests/test_inventario.py::test_insertar_al_inicio` | `estructuras/inventario.py` |
+| CA-I4 | `tests/test_inventario.py::test_insertar_en_el_medio` | `estructuras/inventario.py` |
+| CA-I4 | `tests/test_inventario.py::test_insertar_al_final_equivale_a_agregar` | `estructuras/inventario.py` |
+| CA-I4 | `tests/test_inventario.py::test_insertar_fuera_de_rango_lanza_error_y_no_cambia` | `estructuras/inventario.py` |
+| CA-I4 | `tests/test_inventario.py::test_quitar_e_insertar_en_la_misma_posicion_restaura` | `estructuras/inventario.py` |
+| CA-I5 | `tests/test_inventario.py::test_listar_vacio_no_entrega_nada` | `estructuras/inventario.py` |
+| CA-I5 | `tests/test_inventario.py::test_listar_un_elemento` | `estructuras/inventario.py` |
+| CA-I5 | `tests/test_inventario.py::test_listar_no_modifica_el_inventario` | `estructuras/inventario.py` |
+| CA-I6 | `tests/test_inventario.py::test_inventario_nuevo_esta_vacio_con_capacidad_5` | `estructuras/inventario.py` |
+| CA-I6 | `tests/test_inventario.py::test_capacidad_personalizada` | `estructuras/inventario.py` |
+| CA-I6 | `tests/test_inventario.py::test_capacidad_menor_que_1_lanza_error` | `estructuras/inventario.py` |
+| CA-M1 | `tests/test_mapa.py::test_dentro_en_las_esquinas` | `dominio/mapa.py` |
+| CA-M1 | `tests/test_mapa.py::test_dentro_un_paso_fuera_de_cada_borde` | `dominio/mapa.py` |
+| CA-M2 | `tests/test_mapa.py::test_es_transitable_en_celdas_libres_y_con_objetos` | `dominio/mapa.py` |
+| CA-M2 | `tests/test_mapa.py::test_es_transitable_falso_en_obstaculo` | `dominio/mapa.py` |
+| CA-M2 | `tests/test_mapa.py::test_es_transitable_falso_fuera_del_mapa` | `dominio/mapa.py` |
+| CA-M3 | `tests/test_mapa.py::test_mapa_nuevo_tiene_todas_las_celdas_libres` | `dominio/mapa.py` |
+| CA-M3 | `tests/test_mapa.py::test_poner_y_obtener` | `dominio/mapa.py` |
+| CA-M3 | `tests/test_mapa.py::test_poner_no_cambia_otras_celdas` | `dominio/mapa.py` |
+| CA-M3 | `tests/test_mapa.py::test_poner_sobrescribe_la_celda` | `dominio/mapa.py` |
+| CA-M4 | `tests/test_mapa.py::test_obtener_fuera_lanza_error` | `dominio/mapa.py` |
+| CA-M4 | `tests/test_mapa.py::test_poner_fuera_lanza_error` | `dominio/mapa.py` |
+| CA-M4 | `tests/test_mapa.py::test_dibujar_marca_fuera_del_mapa_lanza_error` | `dominio/mapa.py` |
+| CA-M5 | `tests/test_mapa.py::test_poner_simbolo_invalido_lanza_error_y_no_cambia` | `dominio/mapa.py` |
+| CA-M5 | `tests/test_mapa.py::test_contar_simbolo_invalido_lanza_error` | `dominio/mapa.py` |
+| CA-M6 | `tests/test_mapa.py::test_dibujar_una_linea_por_fila` | `dominio/mapa.py` |
+| CA-M6 | `tests/test_mapa.py::test_dibujar_refleja_los_simbolos` | `dominio/mapa.py` |
+| CA-M6 | `tests/test_mapa.py::test_dibujar_mapa_de_una_celda` | `dominio/mapa.py` |
+| CA-M7 | `tests/test_mapa.py::test_dibujar_marcas_encima_sin_cambiar_el_mapa` | `dominio/mapa.py` |
+| CA-M7 | `tests/test_mapa.py::test_dibujar_marca_fuera_del_mapa_lanza_error` | `dominio/mapa.py` |
+| CA-R1 | `tests/test_rutas.py::test_mapa_libre_distancia_es_manhattan` | `dominio/rutas.py` |
+| CA-R1 | `tests/test_rutas.py::test_pasillo_de_una_fila` | `dominio/rutas.py` |
+| CA-R1 | `tests/test_rutas.py::test_rodeo_alrededor_de_un_muro` | `dominio/rutas.py` |
+| CA-R2 | `tests/test_rutas.py::test_celdas_vecinas_distancia_uno` | `dominio/rutas.py` |
+| CA-R2 | `tests/test_rutas.py::test_siguiente_esta_a_un_paso_y_acerca_al_destino` | `dominio/rutas.py` |
+| CA-R3 | `tests/test_rutas.py::test_siguiente_nunca_es_obstaculo_ni_sale_del_mapa` | `dominio/rutas.py` |
+| CA-R3 | `tests/test_rutas.py::test_objetos_y_meta_son_transitables` | `dominio/rutas.py` |
+| CA-R4 | `tests/test_rutas.py::test_muro_completo_da_none` | `dominio/rutas.py` |
+| CA-R4 | `tests/test_rutas.py::test_destino_encerrado_da_none` | `dominio/rutas.py` |
+| CA-R4 | `tests/test_rutas.py::test_pasillo_bloqueado_en_mapa_de_una_fila` | `dominio/rutas.py` |
+| CA-R5 | `tests/test_rutas.py::test_misma_celda_distancia_cero` | `dominio/rutas.py` |
+| CA-R5 | `tests/test_rutas.py::test_mapa_de_una_celda` | `dominio/rutas.py` |
+| CA-R6 | `tests/test_rutas.py::test_origen_fuera_del_mapa_lanza_error` | `dominio/rutas.py` |
+| CA-R6 | `tests/test_rutas.py::test_destino_fuera_del_mapa_lanza_error` | `dominio/rutas.py` |
+| CA-R6 | `tests/test_rutas.py::test_origen_en_obstaculo_da_none` | `dominio/rutas.py` |
+| CA-R6 | `tests/test_rutas.py::test_destino_en_obstaculo_da_none` | `dominio/rutas.py` |
+| CA-R7 | `tests/test_rutas.py::test_mismas_entradas_mismo_resultado` | `dominio/rutas.py` |
+| CA-R7 | `tests/test_rutas.py::test_exploradas_entre_uno_y_las_transitables` | `dominio/rutas.py` |
+| CA-R8 | `tests/test_rutas.py::test_la_busqueda_no_modifica_el_mapa` | `dominio/rutas.py` |
+| CA-R9 | `tests/test_rutas.py::test_hay_ruta_en_mapas_generados` | `dominio/rutas.py` |
 
-## Cierre de la entrega final (2026-11-11)
-
-Pruebas de integración en `tests/test_juego.py`; por estructura en `test_pila.py`, `test_cola.py`, `test_inventario.py`, `test_historial.py`, `test_mapa.py`, `test_mapa_generar.py`, `test_rutas.py`.
-
-| CA | Prueba | Estado |
-|---|---|---|
-| CA-01, CA-02 | `test_mapa_generar.py`, `test_rutas.py::test_hay_ruta_en_mapas_generados` | Hecho |
-| CA-07 | `test_juego.py::test_no_atraviesa_obstaculos` | Hecho |
-| CA-10 | `test_juego.py::test_usar_comida_sube_salud` | Hecho (comida); agua sin prueba |
-| CA-15 | `test_juego.py::test_recoger_y_deshacer_devuelve_el_objeto_al_mapa` | Hecho |
-| CA-16 | `test_juego.py::test_rehacer_recogida_vuelve_a_recoger` | Hecho |
-| CA-17 | `test_juego.py::test_accion_nueva_vacia_lo_rehacible` | Hecho |
-| CA-19 a CA-21 | `test_rutas.py` | Hecho (BFS) |
-| CA-22 | `test_juego.py::test_no_entra_a_celda_con_zombi` | Parcial: bloqueo y -25 de salud; sin aturdimiento |
-| CA-23, CA-25 | `test_juego.py::test_eventos_salen_en_orden_de_llegada` | Hecho |
-| CA-26, CA-27 | `test_juego.py::test_victoria_al_llegar_a_la_meta`, `test_derrota_sin_salud` | Hecho |
-| CA-28 | Implementado en `Juego.estado`, sin prueba dedicada | Pendiente la prueba |
-| CA-03, CA-04, CA-06, CA-08, CA-09, CA-11 a CA-14, CA-18, CA-24, CA-29, CA-35, CA-36 | Implementados en `juego.py` y `main.py`; sin prueba dedicada | Pendiente |
-| CA-05 | Antídoto no implementado | No implementado |
-| CA-30 a CA-34 | AVL y montículo no implementados (Won't) | No implementado |
+## Criterios sin prueba dedicada, parciales o no implementados
+- Implementados en `dominio/juego.py` y `main.py`, sin prueba que los nombre: CA-03, CA-06, CA-08, CA-24, CA-25, CA-28, CA-36.
+- Parciales: CA-22 (hay bloqueo y -25 de salud, pero no aturdimiento); CA-29 (mover, esperar, usar y soltar se rechazan al terminar la partida, pero deshacer y rehacer no comprueban el estado; la consola no llega a ellos).
+- No implementados: CA-05 (antídoto) y CA-30 a CA-34 (AVL y montículo, pasados a Won't en `moscow.md` v1.1).

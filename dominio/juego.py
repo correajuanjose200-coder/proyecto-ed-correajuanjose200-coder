@@ -116,7 +116,7 @@ class Juego:
         return True, "Esperaste."
 
     def usar(self, pos):
-        """Usa el objeto de la posición pos (desde 0): comida +2, agua +1."""
+        """Usa el objeto de la posición pos (desde 0): comida +20, agua +10."""
         if self.estado != "jugando":
             return False, "La partida ya terminó."
         try:

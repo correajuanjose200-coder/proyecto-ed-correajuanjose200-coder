@@ -18,27 +18,38 @@ Versión final · 2026-11-11. n = elementos de la estructura; F x C = celdas del
 | `dominio/mapa.py` | contar, dibujar, proporcion_obstaculos | O(F x C) |
 | `dominio/mapa.py` | generar | O(F x C) más la verificación del camino |
 | `dominio/rutas.py` | buscar_ruta (BFS) | O(V + E) = O(F x C) |
-| `dominio/juego.py` | un turno | O(Z x F x C), con Z zombis
-cat >> specs/trazabilidad.md << 'EOF'
 
-## Cierre de la entrega final (2026-11-11)
+| `dominio/juego.py` | un turno (mover, esperar, usar, soltar) | O(Z × F × C), con Z zombis: cada zombi hace un BFS |
+| `dominio/juego.py` | deshacer, rehacer | O(1) en el historial; el inventario cuesta O(n) con n ≤ 5 |
+| `dominio/juego.py` | procesar_eventos | O(k), con k eventos pendientes |
+| `dominio/juego.py` | dibujar | O(F × C × Z) |
+| `dominio/juego.py` | crear la partida | esperado O((objetos + zombis) × F × C): cada celda candidata se valida con un BFS |
 
-Las pruebas de integración están en `tests/test_juego.py`. Pruebas por estructura: `test_pila.py`, `test_cola.py`, `test_inventario.py`, `test_historial.py`, `test_mapa.py`, `test_mapa_generar.py`, `test_rutas.py`.
+## Medición: celdas exploradas por BFS
+Camino de `inicio` a `meta` en mapas de 20 × 20 generados con las semillas 1 a 10 (320 celdas transitables en cada uno):
 
-| CA | Prueba | Estado |
+| Semilla | Pasos del camino | Celdas exploradas |
 |---|---|---|
-| CA-01, CA-02 | `test_mapa_generar.py`, `test_rutas.py::test_hay_ruta_en_mapas_generados` | Hecho |
-| CA-07 | `test_juego.py::test_no_atraviesa_obstaculos` | Hecho |
-| CA-10 | `test_juego.py::test_usar_comida_sube_salud` | Hecho (comida); agua sin prueba |
-| CA-15 | `test_juego.py::test_recoger_y_deshacer_devuelve_el_objeto_al_mapa` | Hecho |
-| CA-16 | `test_juego.py::test_rehacer_recogida_vuelve_a_recoger` | Hecho |
-| CA-17 | `test_juego.py::test_accion_nueva_vacia_lo_rehacible` | Hecho |
-| CA-19 a CA-21 | `test_rutas.py` | Hecho (BFS) |
-| CA-22 | `test_juego.py::test_no_entra_a_celda_con_zombi` | Parcial: bloqueo y -25 de salud; sin aturdimiento |
-| CA-23, CA-25 | `test_juego.py::test_eventos_salen_en_orden_de_llegada` | Hecho |
-| CA-26, CA-27 | `test_juego.py::test_victoria_al_llegar_a_la_meta`, `test_derrota_sin_salud` | Hecho |
-| CA-28 | Implementado en `Juego.estado`, sin prueba dedicada | Pendiente la prueba |
-| CA-06, CA-08, CA-09, CA-11 a CA-14, CA-18, CA-24, CA-29, CA-35, CA-36 | Implementados en `juego.py` y `main.py`; sin prueba dedicada de integración | Pendiente |
-| CA-03, CA-04 | Implementados en `Juego.__init__`; sin prueba dedicada | Pendiente |
-| CA-05 | Antídoto no implementado | No implementado |
-| CA-30 a CA-34 | AVL y montículo no implementados (Won't) | No implementado |
+| 1 | 38 | 316 |
+| 2 | 38 | 320 |
+| 3 | 38 | 319 |
+| 4 | 38 | 319 |
+| 5 | 38 | 320 |
+| 6 | 38 | 318 |
+| 7 | 38 | 318 |
+| 8 | 38 | 318 |
+| 9 | 38 | 315 |
+| 10 | 38 | 316 |
+
+En este trayecto largo, BFS visita casi todo el mapa (entre 315 y 320 de 320). No se implementó A*, así que no hay comparación medida contra él.
+
+## Comparación de decisiones contra la alternativa descartada
+
+**1. Deshacer y rehacer: dos pilas frente a lista doble con cursor.** Las dos dan deshacer y rehacer en O(1). Con la lista doble, cada acción nueva obliga a cortar la lista en el cursor, lo que agrega casos y código. Con dos pilas basta vaciar la pila de deshechas: `registrar` es O(1) amortizado, porque vaciar cuesta O(n) pero cada acción se descarta una sola vez.
+
+**2. Inventario: lista enlazada con puntero al último frente a arreglo de capacidad 5.** Agregar es O(1) en ambas, y quitar o insertar en el medio es O(n) en ambas. Con n ≤ 5 el costo es prácticamente igual. La lista evita desplazar elementos y manejar posiciones vacías. Con una capacidad grande, el arreglo ganaría en acceso por posición (O(1)) a cambio de desplazar en O(n).
+
+**3. Ruta de los zombis: BFS frente a A\*.** BFS cuesta O(V + E) = O(F × C) por zombi y por turno, y encuentra el camino más corto sin heurística que justificar. A\* exploraría menos celdas, pero exige una heurística admisible y más código. Con 400 celdas la diferencia práctica es pequeña, y por eso A\* quedó como Could.
+
+## Lo que no se implementó
+AVL de entidades, montículo de ranking, cola de turnos propia, antídoto y aturdimiento de zombis (ver `moscow.md` v1.1).
